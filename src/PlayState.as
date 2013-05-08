@@ -6,6 +6,7 @@ package
 	{	public var level:FlxTilemap;
 		public var player:FlxSprite;
 		public var ammo:Number;
+		public var ammotext:FlxText;
 		
 		override public function create():void
 		{
@@ -59,6 +60,10 @@ package
 		player.x = 10;
 		player.y = 220;
 		add(player);
+		
+		ammotext = new FlxText(8, 7, 100, ammo.toString());
+		add(ammotext); 
+		
 		}
 	
 	
@@ -70,37 +75,41 @@ package
 			
 		if(FlxG.keys.RIGHT)
 			player.acceleration.x = player.maxVelocity.x * 4;
-	
-	if(ammo > 0){
+
 		
 		if (FlxG.keys.SPACE && (FlxG.keys.DOWN && player.isTouching(FlxObject.FLOOR)))
 			{
 				player.velocity.y = -player.maxVelocity.y / 2;
-				ammo = ammo - 1;
 			}
 		
 		if (FlxG.keys.SPACE && (FlxG.keys.RIGHT && player.isTouching(FlxObject.RIGHT)))
 			{
 				player.velocity.y = -player.maxVelocity.y / 2;
 				player.velocity.x = -player.maxVelocity.x;
-				ammo = ammo - 1;
 			}
 		
 		if (FlxG.keys.SPACE && (FlxG.keys.LEFT && player.isTouching(FlxObject.LEFT)))
 			{
 				player.velocity.y = -player.maxVelocity.y / 2;
 				player.velocity.x = player.maxVelocity.x;
-				ammo = ammo - 1;
 			}
+		
+		
+		if (FlxG.keys.CONTROL)
+		{
+			ammo -= 1;
+	
+		}
+		if (FlxG.keys.M && player.isTouching(FlxObject.FLOOR))
+		{
+		ammo = 10;
 		}
 		
-	if (FlxG.keys.M && player.isTouching(FlxObject.FLOOR))
-	{
-		ammo = 10;
-	}
-	super.update();
+		ammotext.text = ammo.toString();
 	
-	FlxG.collide(level,player);
+		super.update();
+	
+		FlxG.collide(level,player);
 	}
 	
 }
